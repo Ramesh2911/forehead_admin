@@ -1,0 +1,114 @@
+/* Wrapper */
+.login-wrapper {
+  min-height: 100vh;
+  background: #3c3c3c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Card */
+.login-card {
+  width: 100%;
+  max-width: 900px;
+  min-height: 500px;
+  display: flex;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #bdbdbd;
+}
+
+/* LEFT PANEL */
+.login-left {
+  flex: 1;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-logo {
+  width: 120px;
+}
+
+/* RIGHT PANEL */
+.login-right {
+  flex: 1;
+  padding: 40px;
+  background: #bdbdbd;
+}
+
+.login-right h2 {
+  font-size: 28px;
+  margin-bottom: 25px;
+  color: #3949ab;
+}
+
+/* Inputs */
+.login-right label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.login-right input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 18px;
+  border-radius: 4px;
+  border: none;
+  outline: none;
+}
+
+/* Password */
+.password-box {
+  position: relative;
+}
+
+.password-box span {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  cursor: pointer;
+}
+
+/* Forgot password */
+.forgot-password {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.forgot-password span {
+  color: #0f9d58;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Button */
+.login-right button {
+  width: 100%;
+  padding: 14px;
+  background: #2ecc71;
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+/* 📱 Mobile */
+@media (max-width: 768px) {
+  .login-card {
+    flex-direction: column;
+  }
+
+  .login-left {
+    padding: 30px;
+  }
+
+  .login-logo {
+    width: 90px;
+  }
+}

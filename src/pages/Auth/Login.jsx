@@ -1,0 +1,103 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./Login.css";
+import logo from "../../assets/logo.jpeg";
+import { loginApi } from "../../services/auth.api";
+import { setToken } from "../../services/auth";
+
+const Login = () => {
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const res = await loginApi({ email, password });
+
+      const data = res.data;
+
+      if (!data.success) {
+        setError(data.message || "Login failed");
+        return;
+      }
+
+      // 🔐 Save auth data
+      setToken(data.access_token);
+      localStorage.setItem("refresh_token", data.refresh_token);
+      localStorage.setItem("role", data.user.role_name);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      // ✅ Redirect to dashboard
+      navigate("/dashboard", { replace: true });
+    } catch (err) {
+      setError(
+        err.response?.data?.message || "Invalid email or password"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="login-wrapper">
+      <div className="login-card">
+
+        {/* LEFT */}
+        <div className="login-left">
+          <img src={logo} alt="Logo" className="login-logo" />
+        </div>
+
+        {/* RIGHT */}
+        <div className="login-right">
+          <h2>Sign In</h2>
+
+          <form onSubmit={handleSubmit}>
+            <label>Email</label>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+
+            <label>Password</label>
+            <div className="password-box">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <span onClick={() => setShowPassword(!showPassword)}>
+                👁️
+              </span>
+            </div>
+
+            {error && <p className="error-text">{error}</p>}
+
+            <div className="forgot-password">
+              <span>Forgot password?</span>
+            </div>
+
+            <button type="submit" disabled={loading}>
+              {loading ? "Signing in..." : "Sign Me In"}
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+export default Login;
