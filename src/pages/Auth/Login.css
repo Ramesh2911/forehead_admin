@@ -1,35 +1,32 @@
 /* Wrapper */
 .login-wrapper {
-  min-height: 100vh;
+  height: 100vh;
   background: #3c3c3c;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  overflow: hidden;
 }
 
 /* Card */
 .login-card {
   width: 100%;
   max-width: 900px;
-  min-height: 500px;
+  height: 520px;
+  max-height: 90vh;
   display: flex;
   border-radius: 20px;
   overflow: hidden;
   background: #bdbdbd;
 }
 
-/* LEFT PANEL */
+/* LEFT PANEL – LOGO FULL COVER */
 .login-left {
   flex: 1;
-  background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.login-logo {
-  width: 120px;
+  background-image: url("../../assets/logo.png"); /* ✅ ALWAYS applied */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 /* RIGHT PANEL */
@@ -98,17 +95,15 @@
   border-radius: 4px;
 }
 
-/* 📱 Mobile */
+/* 📱 MOBILE FIX */
 @media (max-width: 768px) {
   .login-card {
     flex-direction: column;
+    height: auto;
   }
 
   .login-left {
-    padding: 30px;
-  }
-
-  .login-logo {
-    width: 90px;
+    min-height: 200px;
+    background-size: contain; 
   }
 }

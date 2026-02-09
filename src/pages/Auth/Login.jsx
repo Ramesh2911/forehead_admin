@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
-import logo from "../../assets/logo.jpeg";
+import logo from "../../assets/logo.png";
 import { loginApi } from "../../services/auth.api";
 import { setToken } from "../../services/auth";
 
@@ -50,12 +50,8 @@ const Login = () => {
     <div className="login-wrapper">
       <div className="login-card">
 
-        {/* LEFT */}
-        <div className="login-left">
-          <img src={logo} alt="Logo" className="login-logo" />
-        </div>
+        <div className="login-left"></div>
 
-        {/* RIGHT */}
         <div className="login-right">
           <h2>Sign In</h2>
 
@@ -78,8 +74,11 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              <span onClick={() => setShowPassword(!showPassword)}>
-                👁️
+              <span
+                onClick={() => setShowPassword(!showPassword)}
+                style={{ cursor: "pointer" }}
+              >
+                {showPassword ? "👁️" : "🙈"}
               </span>
             </div>
 
@@ -94,7 +93,6 @@ const Login = () => {
             </button>
           </form>
         </div>
-
       </div>
     </div>
   );
