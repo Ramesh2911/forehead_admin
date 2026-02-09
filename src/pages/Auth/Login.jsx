@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
-import logo from "../../assets/logo.png";
 import { loginApi } from "../../services/auth.api";
 import { setToken } from "../../services/auth";
 
@@ -28,14 +27,12 @@ const Login = () => {
         setError(data.message || "Login failed");
         return;
       }
-
-      // 🔐 Save auth data
+     
       setToken(data.access_token);
       localStorage.setItem("refresh_token", data.refresh_token);
       localStorage.setItem("role", data.user.role_name);
       localStorage.setItem("user", JSON.stringify(data.user));
-
-      // ✅ Redirect to dashboard
+     
       navigate("/dashboard", { replace: true });
     } catch (err) {
       setError(

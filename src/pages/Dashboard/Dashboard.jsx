@@ -1,12 +1,11 @@
 import "./Dashboard.css";
 
 const Dashboard = () => {
-  // 🔹 Dummy dashboard data (FOREHEAD compliant)
   const stats = [
-    { title: "Total Retailers", value: 1240 },
-    { title: "Active Retailers Today", value: 875 },
-    { title: "Listed Tickets", value: 320 },
-    { title: "Active Subscriptions", value: 410 },
+    { title: "Total Retailers", value: 1240, icon: "🏪" },
+    { title: "Active Retailers Today", value: 875, icon: "✅" },
+    { title: "Listed Tickets", value: 320, icon: "🎟️" },
+    { title: "Active Subscriptions", value: 410, icon: "💳" },
   ];
 
   const recentRetailers = [
@@ -41,63 +40,67 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
-
-      {/* 🔹 Page Title */}
+      {/* Page Title */}
       <h1 className="dashboard-title">Dashboard</h1>
 
-      {/* 🔹 Stats Cards */}
+      {/* Stats Cards */}
       <div className="stats-grid">
         {stats.map((item, index) => (
           <div className="stat-card" key={index}>
-            <h3>{item.title}</h3>
+            <div className="stat-header">
+              <span className="stat-icon">{item.icon}</span>
+              <h3>{item.title}</h3>
+            </div>
             <p>{item.value}</p>
           </div>
         ))}
       </div>
 
-      {/* 🔹 Sections */}
+      {/* Sections */}
       <div className="dashboard-sections">
-
         {/* Recent Retailers */}
         <div className="card">
           <h2>Recently Added Retailers</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Shop Name</th>
-                <th>Location</th>
-                <th>Tickets Available</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {recentRetailers.map(retailer => (
-                <tr key={retailer.id}>
-                  <td>{retailer.name}</td>
-                  <td>{retailer.location}</td>
-                  <td>{retailer.tickets}</td>
-                  <td>
-                    <span
-                      className={
-                        retailer.status === "Active"
-                          ? "status active"
-                          : "status inactive"
-                      }
-                    >
-                      {retailer.status}
-                    </span>
-                  </td>
+
+          <div className="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Shop Name</th>
+                  <th>Location</th>
+                  <th>Tickets Available</th>
+                  <th>Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {recentRetailers.map((retailer) => (
+                  <tr key={retailer.id}>
+                    <td>{retailer.name}</td>
+                    <td>{retailer.location}</td>
+                    <td>{retailer.tickets}</td>
+                    <td>
+                      <span
+                        className={
+                          retailer.status === "Active"
+                            ? "status active"
+                            : "status inactive"
+                        }
+                      >
+                        {retailer.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         {/* Upcoming Draws */}
         <div className="card">
           <h2>Upcoming Draws (Information Only)</h2>
           <ul className="draw-list">
-            {upcomingDraws.map(draw => (
+            {upcomingDraws.map((draw) => (
               <li key={draw.id}>
                 <span>{draw.name}</span>
                 <span>{draw.time}</span>
@@ -105,17 +108,15 @@ const Dashboard = () => {
             ))}
           </ul>
         </div>
-
       </div>
 
-      {/* 🔒 Disclaimer */}
+      {/* Disclaimer */}
       <div className="disclaimer">
         <p>
           ⚠️ FOREHEAD is an information-only platform. No lottery tickets are
           sold, promoted, or purchased through this system.
         </p>
       </div>
-
     </div>
   );
 };

@@ -3,11 +3,12 @@ import Login from "./pages/Auth/Login";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import AdminLayout from "./layouts/AdminLayout";
 import ProtectedRoute from "./routes/ProtectedRoutes";
+import MyProfile from "./pages/Profile/MyProfile";
 
 function App() {
   return (
     <Routes>
-      {/* Public */}
+      
       <Route path="/" element={<Login />} />
 
       {/* Protected Admin */}
@@ -19,6 +20,7 @@ function App() {
         }
       >
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/my-profile" element={<MyProfile />} />
       </Route>
 
       {/* Fallback */}

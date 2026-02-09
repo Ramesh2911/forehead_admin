@@ -15,10 +15,6 @@
   border-bottom: 1px solid #e5e7eb;
 }
 
-.header-left img {
-  height: 40px;
-}
-
 .header-right {
   display: flex;
   align-items: center;
