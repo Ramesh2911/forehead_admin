@@ -10,16 +10,18 @@ const ProfileDropdown = () => {
 
   return (
     <div
-      className="profile"
+      className="profile-wrapper"
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
     >
-      <span className="icon">👤</span>
+      <div className="profile-trigger">
+        👤 <span className="caret">▾</span>
+      </div>
 
       {open && (
-        <div className="dropdown">
-          <div className="dropdown-item">👤 Profile</div>
-          <div className="dropdown-item" onClick={logout}>
+        <div className="profile-menu">
+          <div className="menu-item">👤 My Profile</div>
+          <div className="menu-item" onClick={logout}>
             🚪 Logout
           </div>
         </div>

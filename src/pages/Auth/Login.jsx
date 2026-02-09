@@ -50,7 +50,12 @@ const Login = () => {
     <div className="login-wrapper">
       <div className="login-card">
 
-        <div className="login-left"></div>
+        <div className="login-left">
+          <div className="brand-text">
+            <span className="ticket">Ticket</span>
+            <span className="map">map</span>
+          </div>
+        </div>
 
         <div className="login-right">
           <h2>Sign In</h2>

@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Auth/Login";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import AdminLayout from "./layouts/AdminLayout";
@@ -7,20 +7,22 @@ import ProtectedRoute from "./routes/ProtectedRoutes";
 function App() {
   return (
     <Routes>
+      {/* Public */}
       <Route path="/" element={<Login />} />
 
+      {/* Protected Admin */}
       <Route
-        path="/*"
         element={
           <ProtectedRoute>
-            <AdminLayout>
-              <Routes>
-                <Route path="dashboard" element={<Dashboard />} />
-              </Routes>
-            </AdminLayout>
+            <AdminLayout />
           </ProtectedRoute>
         }
-      />
+      >
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Route>
+
+      {/* Fallback */}
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
