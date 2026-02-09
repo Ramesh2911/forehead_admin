@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import AdminLayout from "./layouts/AdminLayout";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 import MyProfile from "./pages/Profile/MyProfile";
+import Retailers from "./pages/Retailers/Retailers";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       >
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/my-profile" element={<MyProfile />} />
+        <Route path="/retailers" element={<Retailers />} />
       </Route>
 
       {/* Fallback */}
