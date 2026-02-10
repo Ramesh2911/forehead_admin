@@ -1,12 +1,41 @@
 import "./Dashboard.css";
+import {
+  FaStore,
+  FaCheckCircle,
+  FaTicketAlt,
+  FaCreditCard,
+} from "react-icons/fa";
+
 
 const Dashboard = () => {
+
   const stats = [
-    { title: "Total Retailers", value: 1240, icon: "🏪" },
-    { title: "Active Retailers Today", value: 875, icon: "✅" },
-    { title: "Listed Tickets", value: 320, icon: "🎟️" },
-    { title: "Active Subscriptions", value: 410, icon: "💳" },
+    {
+      title: "Total Retailers",
+      value: 1240,
+      icon: FaStore,
+      color: "#2563eb",
+    },
+    {
+      title: "Active Retailers Today",
+      value: 875,
+      icon: FaCheckCircle,
+      color: "#16a34a",
+    },
+    {
+      title: "Listed Tickets",
+      value: 320,
+      icon: FaTicketAlt,
+      color: "#dc2626",
+    },
+    {
+      title: "Active Subscriptions",
+      value: 410,
+      icon: FaCreditCard,
+      color: "#9333ea",
+    },
   ];
+
 
   const recentRetailers = [
     {
@@ -45,20 +74,25 @@ const Dashboard = () => {
 
       {/* Stats Cards */}
       <div className="stats-grid">
-        {stats.map((item, index) => (
-          <div className="stat-card" key={index}>
-            <div className="stat-header">
-              <span className="stat-icon">{item.icon}</span>
-              <h3>{item.title}</h3>
-            </div>
-            <p>{item.value}</p>
-          </div>
-        ))}
-      </div>
+        {stats.map((item, index) => {
+          const Icon = item.icon;
 
-      {/* Sections */}
+          return (
+            <div className="stats-card" key={index}>
+              <div className="stats-icon" style={{ color: item.color }}>
+                <Icon size={26} />
+              </div>
+
+              <div className="stats-info">
+                <h4>{item.title}</h4>
+                <p>{item.value}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+     
       <div className="dashboard-sections">
-        {/* Recent Retailers */}
         <div className="card">
           <h2>Recently Added Retailers</h2>
 

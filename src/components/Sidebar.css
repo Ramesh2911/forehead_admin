@@ -28,8 +28,9 @@
 /* Item */
 .sidebar-item {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: 14px;
+  gap: 6px;
   padding: 12px 14px;
   border-radius: 12px;
   color: #6b7280;
@@ -53,12 +54,18 @@
 
 /* Icon */
 .sidebar-icon {
+ display: inline-flex; 
+  align-items: center;
+  justify-content: center;
   font-size: 18px;
+  line-height: 1;
 }
 
 /* Label */
 .sidebar-label {
   white-space: nowrap;
+  line-height: 1;
+  margin-top: 1px;
 }
 
 /* Mobile / responsive styles */
@@ -78,7 +85,7 @@
     transition: transform 0.25s ease;
     background: #ffffff;
     z-index: 2000;
-    box-shadow: 6px 0 24px rgba(2,6,23,0.1);
+    box-shadow: 6px 0 24px rgba(2, 6, 23, 0.1);
     padding: 0;
   }
 

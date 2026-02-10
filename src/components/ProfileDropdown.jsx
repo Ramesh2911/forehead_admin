@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { logoutApi } from "../services/auth.api";
 import { useNavigate } from "react-router-dom";
+import { FaUserCircle } from "react-icons/fa";
+import { FaUnlock } from "react-icons/fa";
 
 const ProfileDropdown = () => {
 
@@ -43,21 +45,24 @@ const ProfileDropdown = () => {
         className="profile-trigger"
         onClick={() => setOpen((prev) => !prev)}
       >
-        <span style={{ fontSize: "20px", lineHeight: "1" }}>👤</span>
+        <span style={{ fontSize: "20px", lineHeight: "1" }}> <FaUserCircle /></span>
       </div>
 
       <div className={`profile-menu ${open ? "open" : ""}`}>
-        <div className="menu-item"
+        <div
+          className="menu-item"
           onClick={() => {
             navigate("/my-profile");
             setOpen(false);
           }}
         >
-          👤 <span>My Profile</span>
+          <FaUserCircle size={22} color="#2563eb" />
+          <span>My Profile</span>
         </div>
 
-        <div className="menu-item" onClick={logout}>
-          🔓 <span>Logout</span>
+        <div className="menu-item logout" onClick={logout}>
+          <FaUnlock size={22} color="#dc2626" />
+          <span>Logout</span>
         </div>
       </div>
     </div>

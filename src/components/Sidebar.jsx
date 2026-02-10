@@ -4,14 +4,12 @@ import { hasModuleAccess } from "../services/permission";
 import logo from "../assets/logo.png";
 import "./Sidebar.css";
 
-const Sidebar = ({ isOpen = false, onClose = () => {} }) => {
+const Sidebar = ({ isOpen = false, onClose = () => { } }) => {
   return (
     <>
-      {/* backdrop for mobile when sidebar is open */}
       {isOpen && <div className="sidebar-backdrop" onClick={onClose} />}
 
       <aside className={"sidebar" + (isOpen ? " open" : "")}>
-        {/* mobile header inside sidebar */}
         <div className="sidebar-mobile-header">
           <div className="mobile-brand" style={{ display: "flex", gap: 10, alignItems: "center" }}>
             <img src={logo} alt="logo" style={{ height: 36, width: "auto" }} />
@@ -27,7 +25,7 @@ const Sidebar = ({ isOpen = false, onClose = () => {} }) => {
         </div>
 
         <div className="sidebar-menu">
-          {SIDEBAR_ITEMS.map(
+          {SIDEBAR_ITEMS?.map(
             (item) =>
               hasModuleAccess(item.key) && (
                 <NavLink
@@ -37,7 +35,13 @@ const Sidebar = ({ isOpen = false, onClose = () => {} }) => {
                     "sidebar-item" + (isActive ? " active" : "")
                   }
                 >
-                  <span className="sidebar-icon">{item.icon}</span>
+                  <span
+                    className="sidebar-icon"
+                    style={{ color: item.iconColor }}
+                  >
+                    <item.icon size={17} />
+                  </span>
+
                   <span className="sidebar-label">{item.label}</span>
                 </NavLink>
               )

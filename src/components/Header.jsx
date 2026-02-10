@@ -1,6 +1,7 @@
 import ProfileDropdown from "./ProfileDropdown";
 import logo from "../assets/logo.png";
 import "./Header.css";
+import { FaBell } from "react-icons/fa";
 
 const Header = ({ onToggleSidebar }) => {
   return (
@@ -45,9 +46,9 @@ const Header = ({ onToggleSidebar }) => {
       <div className="header-right">
         <span
           className="header-icon"
-          style={{ fontSize: "22px", cursor: "pointer" }}
+          style={{ fontSize: "22px", cursor: "pointer", color: "#2563eb" }}
         >
-          🔔
+          <FaBell />
         </span>
         <ProfileDropdown />
       </div>

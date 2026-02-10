@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import { loginApi } from "../../services/auth.api";
 import { setToken } from "../../services/auth";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -80,7 +81,7 @@ const Login = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 style={{ cursor: "pointer" }}
               >
-                {showPassword ? "👁️" : "🙈"}
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
               </span>
             </div>
 
