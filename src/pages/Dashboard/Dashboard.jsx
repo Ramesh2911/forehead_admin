@@ -9,6 +9,14 @@ import {
 
 const Dashboard = () => {
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+
+    if (hour < 12) return "Good Morning";
+    if (hour < 17) return "Good Afternoon";
+    return "Good Evening";
+  };
+
   const stats = [
     {
       title: "Total Retailers",
@@ -69,10 +77,11 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
-      {/* Page Title */}
-      <h1 className="dashboard-title">Dashboard</h1>
+      <h1 className="dashboard-title">
+        <span style={{ color: "#1e40af" }}>{getGreeting()},</span>{" "}
+        <span style={{ color: "#dc2626" }}>Dashboard</span>
+      </h1>
 
-      {/* Stats Cards */}
       <div className="stats-grid">
         {stats.map((item, index) => {
           const Icon = item.icon;
@@ -91,7 +100,7 @@ const Dashboard = () => {
           );
         })}
       </div>
-     
+
       <div className="dashboard-sections">
         <div className="card">
           <h2>Recently Added Retailers</h2>

@@ -1,37 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
+import { getAllRetailers } from "../../services/auth.api";
+import { useNavigate } from "react-router-dom";
 
-/* =======================
-   SAMPLE DATA
-======================= */
-const data = [
-  {
-    id: 1,
-    name: "Retailer One",
-    email: "one@gmail.com",
-    phone: "9876543210",
-    isVerify: "Pending",
-  },
-  {
-    id: 2,
-    name: "Retailer Two",
-    email: "two@gmail.com",
-    phone: "9876543211",
-    isVerify: "Approved",
-  },
-  {
-    id: 3,
-    name: "Retailer Three",
-    email: "three@gmail.com",
-    phone: "9876543212",
-    isVerify: "Pending",
-  },
-];
-
-/* =======================
-   STATUS BADGE STYLE
-======================= */
 const statusStyle = (status) => ({
   padding: "4px 12px",
   borderRadius: "12px",
@@ -41,108 +13,120 @@ const statusStyle = (status) => ({
   backgroundColor: status === "Approved" ? "#16a34a" : "#f59e0b",
 });
 
-/* =======================
-   TABLE STYLES (H-TAG LOOK)
-======================= */
 const customStyles = {
   headCells: {
     style: {
       fontSize: "15px",
       fontWeight: "600",
-      textTransform: "capitalize",
     },
   },
 };
 
-/* =======================
-   COLUMNS
-======================= */
-const columns = [
-  {
-    name: "ID",
-    selector: (row) => row.id,
-    width: "70px",
-    sortable: true,
-  },
-  {
-    name: "Retailer Name",
-    selector: (row) => row.name,
-    sortable: true,
-    wrap: true,
-  },
-  {
-    name: "Email",
-    selector: (row) => row.email,
-    wrap: true,
-  },
-  {
-    name: "Phone",
-    selector: (row) => row.phone,
-  },
-  {
-    name: "Is Verify",
-    cell: (row) => (
-      <span style={statusStyle(row.isVerify)}>
-        {row.isVerify}
-      </span>
-    ),
-    center: true,
-  },
-  {
-    name: "Action",
-    cell: (row) => (
-      <div
-        style={{
-          display: "flex",
-          gap: "16px",
-          alignItems: "center",
-        }}
-      >
-        <FaEye
-          size={22}
-          color="#2563eb"
-          title="View"
-          style={{ cursor: "pointer" }}
-          onClick={() => console.log("View", row.id)}
-        />
-        <FaEdit
-          size={22}
-          color="#16a34a"
-          title="Edit"
-          style={{ cursor: "pointer" }}
-          onClick={() => console.log("Edit", row.id)}
-        />
-        <FaTrash
-          size={22}
-          color="#dc2626"
-          title="Delete"
-          style={{ cursor: "pointer" }}
-          onClick={() => console.log("Delete", row.id)}
-        />
-      </div>
-    ),
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
-    width: "170px",
-  },
-];
-
-/* =======================
-   COMPONENT
-======================= */
 const Retailers = () => {
-  const [search, setSearch] = useState("");
 
-  const filteredData = data.filter((item) =>
+  const navigate = useNavigate();
+  const [search, setSearch] = useState("");
+  const [allRetailers, setAllRetailers] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    fetchRetailers();
+  }, []);
+
+  const fetchRetailers = async () => {
+    try {
+      setLoading(true);
+
+      const res = await getAllRetailers();
+      const result = res.data;
+
+      if (result.success) {
+        setAllRetailers(result.data || []);
+      } else {
+        setAllRetailers([]);
+      }
+
+    } catch (error) {
+      console.error("Error fetching retailers:", error);
+      setAllRetailers([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filteredData = allRetailers.filter((item) =>
     item.name.toLowerCase().includes(search.toLowerCase()) ||
-    item.email.toLowerCase().includes(search.toLowerCase()) ||
-    item.phone.includes(search)
+    item.phone.includes(search) ||
+    item.retailerId?.toLowerCase().includes(search.toLowerCase())
   );
+
+  const columns = [
+    {
+      name: "ID",
+      selector: (row) => row.retailerId,
+      sortable: true,
+      wrap: true,
+    },
+    {
+      name: "Retailer Name",
+      selector: (row) => row.name,
+      sortable: true,
+      wrap: true,
+    },
+    {
+      name: "Phone",
+      selector: (row) => row.phone,
+    },
+    {
+      name: "Is Verify",
+      cell: (row) => (
+        <span style={statusStyle(row.is_verified === 1 ? "Approved" : "Pending")}>
+          {row.is_verified === 1 ? "Approved" : "Pending"}
+        </span>
+      ),
+      center: true,
+    },
+    {
+      name: "Status",
+      selector: (row) => row.status,
+      center: true,
+    },
+    {
+      name: "Action",
+      cell: (row) => (
+        <div style={{ display: "flex", gap: "16px" }}>
+          <FaEye
+            size={22}
+            color="#2563eb"
+            title="View"
+            style={{ cursor: "pointer" }}
+            onClick={() => navigate(`/retailer-details?id=${row.id}`)}
+          />
+          <FaEdit
+            size={22}
+            color="#16a34a"
+            title="Edit"
+            style={{ cursor: "pointer" }}
+            onClick={() => console.log("Edit", row.id)}
+          />
+          <FaTrash
+            size={22}
+            color="#dc2626"
+            title="Delete"
+            style={{ cursor: "pointer" }}
+            onClick={() => console.log("Delete", row.id)}
+          />
+        </div>
+      ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
+      width: "170px",
+    },
+  ];
 
   return (
     <div style={{ padding: "20px", background: "#fff" }}>
-      {/* 🔹 HEADER */}
       <div
         style={{
           display: "flex",
@@ -154,7 +138,8 @@ const Retailers = () => {
         }}
       >
         <h2 style={{ margin: 0, fontWeight: 600 }}>
-          Retailers List
+          <span style={{ color: "#1e40af" }}>Retailers</span>{" "}
+          <span style={{ color: "#dc2626" }}>List</span>
         </h2>
 
         <input
@@ -172,7 +157,6 @@ const Retailers = () => {
         />
       </div>
 
-      {/* 🔹 TABLE */}
       <DataTable
         columns={columns}
         data={filteredData}
@@ -183,10 +167,11 @@ const Retailers = () => {
         striped
         responsive
         dense
+        progressPending={loading}
         customStyles={customStyles}
         noDataComponent={
           <div style={{ padding: 20, fontWeight: 500 }}>
-            No data found!
+            <span style={{ color: "#dc2626" }}>No Retailers found!</span>
           </div>
         }
       />

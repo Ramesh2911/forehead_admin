@@ -5,14 +5,15 @@ import AdminLayout from "./layouts/AdminLayout";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 import MyProfile from "./pages/Profile/MyProfile";
 import Retailers from "./pages/Retailers/Retailers";
+import RetailerDetails from "./pages/Retailers/RetailerDetails";
+import Module from "./pages/Module/Module";
 
 function App() {
   return (
     <Routes>
       
       <Route path="/" element={<Login />} />
-
-      {/* Protected Admin */}
+    
       <Route
         element={
           <ProtectedRoute>
@@ -23,9 +24,10 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/my-profile" element={<MyProfile />} />
         <Route path="/retailers" element={<Retailers />} />
+        <Route path="/retailer-details" element={<RetailerDetails />} />
+        <Route path="/module" element={<Module />} />
       </Route>
-
-      {/* Fallback */}
+      
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

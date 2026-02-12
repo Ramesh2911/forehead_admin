@@ -47,11 +47,11 @@
 }
 
 .brand-text .ticket {
-  color: #1e40af; /* Blue */
+  color: #1e40af; 
 }
 
 .brand-text .map {
-  color: #dc2626; /* Red */
+  color: #dc2626; 
 }
 
 /* =========================
@@ -63,7 +63,7 @@
   background: #bdbdbd;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* 🔥 Center Sign In */
+  justify-content: center; 
 }
 
 .login-right h2 {

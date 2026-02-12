@@ -8,6 +8,10 @@ export const DASHBOARD = {
 };
 
 export const RETAILERS = {
-  LIST: "/retailers",
-  CREATE: "/retailers/create",
+  LIST: "/all-retailers",
+  DETAILS: "/retailer-details",
+};
+
+export const MODULES = {
+  LIST: "/all-modules",
 };
