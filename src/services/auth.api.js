@@ -1,6 +1,7 @@
 import API from "./api";
 import {
   AUTH,
+  CUSTOMERS,
   MODULES,
   RETAILERS,
   SUBSCRIPTIONS
@@ -34,6 +35,16 @@ export const getAllSubscriptions = () => {
 
 export const getSubscriptionsDetails = (id) => {
   return API.get(SUBSCRIPTIONS.DETAILS, {
+    params: { id },
+  });
+};
+
+export const getAllCustomers = () => {
+  return API.get(CUSTOMERS.LIST);
+};
+
+export const getCustomerDetails = (id) => {
+  return API.get(CUSTOMERS.DETAILS, {
     params: { id },
   });
 };

@@ -20,3 +20,8 @@ export const SUBSCRIPTIONS = {
   LIST: "/all-subscriptions",
   DETAILS: "/subcription-details",
 };
+
+export const CUSTOMERS = {
+  LIST: "/all-customers",
+  DETAILS: "/customer-details",
+};

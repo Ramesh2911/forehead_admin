@@ -8,6 +8,7 @@ import Retailers from "./pages/Retailers/Retailers";
 import RetailerDetails from "./pages/Retailers/RetailerDetails";
 import Module from "./pages/Module/Module";
 import Subscriptions from "./pages/Subscriptions/Subscriptions";
+import Customers from "./pages/Customers/Customers";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/retailer-details" element={<RetailerDetails />} />
         <Route path="/module" element={<Module />} />
         <Route path="/subscriptions" element={<Subscriptions />} />
+        <Route path="/users" element={<Customers />} />
       </Route>
       
       <Route path="*" element={<Navigate to="/" replace />} />
