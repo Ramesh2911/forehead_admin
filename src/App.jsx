@@ -7,11 +7,11 @@ import MyProfile from "./pages/Profile/MyProfile";
 import Retailers from "./pages/Retailers/Retailers";
 import RetailerDetails from "./pages/Retailers/RetailerDetails";
 import Module from "./pages/Module/Module";
+import Subscriptions from "./pages/Subscriptions/Subscriptions";
 
 function App() {
   return (
     <Routes>
-      
       <Route path="/" element={<Login />} />
     
       <Route
@@ -26,6 +26,7 @@ function App() {
         <Route path="/retailers" element={<Retailers />} />
         <Route path="/retailer-details" element={<RetailerDetails />} />
         <Route path="/module" element={<Module />} />
+        <Route path="/subscriptions" element={<Subscriptions />} />
       </Route>
       
       <Route path="*" element={<Navigate to="/" replace />} />

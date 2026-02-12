@@ -2,7 +2,8 @@ import API from "./api";
 import {
   AUTH,
   MODULES,
-  RETAILERS
+  RETAILERS,
+  SUBSCRIPTIONS
 } from "./endpoints";
 
 export const loginApi = (payload) => {
@@ -27,3 +28,12 @@ export const getAllModules = () => {
   return API.get(MODULES.LIST);
 };
 
+export const getAllSubscriptions = () => {
+  return API.get(SUBSCRIPTIONS.LIST);
+};
+
+export const getSubscriptionsDetails = (id) => {
+  return API.get(SUBSCRIPTIONS.DETAILS, {
+    params: { id },
+  });
+};

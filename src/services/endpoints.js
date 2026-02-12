@@ -15,3 +15,8 @@ export const RETAILERS = {
 export const MODULES = {
   LIST: "/all-modules",
 };
+
+export const SUBSCRIPTIONS = {
+  LIST: "/all-subscriptions",
+  DETAILS: "/subcription-details",
+};
