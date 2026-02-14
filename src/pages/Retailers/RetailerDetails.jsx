@@ -12,7 +12,25 @@ import {
   FaClock,
   FaArrowLeft,
 } from "react-icons/fa";
+
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  Tooltip,
+} from "react-leaflet";
+import L from "leaflet";
 import { getRetailerDetails } from "../../services/auth.api";
+
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl:
+    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+  shadowUrl:
+    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+});
 
 const RetailerDetails = () => {
   const [searchParams] = useSearchParams();
@@ -21,19 +39,6 @@ const RetailerDetails = () => {
 
   const [retailer, setRetailer] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  /* =======================
-     LOCK PAGE SCROLL
-  ======================= */
-  useEffect(() => {
-    document.documentElement.style.overflow = "hidden";
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.documentElement.style.overflow = "auto";
-      document.body.style.overflow = "auto";
-    };
-  }, []);
 
   useEffect(() => {
     if (id) fetchDetails();
@@ -60,6 +65,12 @@ const RetailerDetails = () => {
 
   if (loading) return <p style={styles.loading}>Loading...</p>;
   if (!retailer) return <p style={styles.loading}>No Retailer Found</p>;
+
+  const hasLocation =
+    retailer.latitude && retailer.longitude;
+
+  const lat = hasLocation ? parseFloat(retailer.latitude) : null;
+  const lng = hasLocation ? parseFloat(retailer.longitude) : null;
 
   return (
     <div style={styles.page}>
@@ -92,17 +103,62 @@ const RetailerDetails = () => {
         <Detail icon={<FaMapMarkerAlt />} label="State" value={retailer.state_name} />
         <Detail icon={<FaCity />} label="District" value={retailer.district_name} />
         <Detail icon={<FaCity />} label="City" value={retailer.city_name} />
-
-        <Detail
-          icon={<FaMapMarkerAlt />}
-          label="Address"
-          value={retailer.address || "-"}
-        />
+        <Detail icon={<FaMapMarkerAlt />} label="Police Station" value={retailer.station_name} />
+        <Detail icon={<FaMapMarkerAlt />} label="PIN Code" value={retailer.pin} />
+        <Detail icon={<FaMapMarkerAlt />} label="Address" value={retailer.address} />
 
         <Detail
           label="Register Date & Time"
           value={new Date(retailer.created_at).toLocaleString()}
         />
+
+        {/* MAP SECTION */}
+        {hasLocation ? (
+          <div style={styles.mapWrapper}>
+            <div style={styles.mapTitle}>Shop Location</div>
+
+            <MapContainer
+              center={[lat, lng]}
+              zoom={15}
+              style={styles.map}
+            >
+              <TileLayer
+                attribution="&copy; OpenStreetMap contributors"
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+
+              <Marker position={[lat, lng]}>
+                {/* Hover Tooltip */}
+                <Tooltip direction="top" offset={[0, -10]} opacity={1}>
+                  <div style={{ fontSize: "13px" }}>
+                    <strong>{retailer.shop_name}</strong>
+                    <br />
+                    {retailer.address}
+                    <br />
+                    <span style={{ color: "#2563eb" }}>
+                      Lat: {retailer.latitude}
+                    </span>
+                    <br />
+                    <span style={{ color: "#dc2626" }}>
+                      Lng: {retailer.longitude}
+                    </span>
+                  </div>
+                </Tooltip>
+
+                {/* Click Popup */}
+                <Popup>
+                  <strong>{retailer.shop_name}</strong>
+                  <br />
+                  {retailer.address}
+                </Popup>
+              </Marker>
+            </MapContainer>
+          </div>
+        ) : (
+          <div style={styles.noLocation}>
+            Location not available
+          </div>
+        )}
       </div>
     </div>
   );
@@ -113,18 +169,16 @@ const Detail = ({ icon, label, value }) => (
     {icon && <div style={styles.icon}>{icon}</div>}
     <div>
       <div style={styles.label}>{label}</div>
-      <div style={styles.value}>{value}</div>
+      <div style={styles.value}>{value || "-"}</div>
     </div>
   </div>
 );
 
 const styles = {
   page: {
-    height: "100vh",
+    minHeight: "100vh",
     background: "#f4f6fb",
     padding: "24px 32px",
-    boxSizing: "border-box",
-    overflow: "hidden",
   },
   header: {
     display: "flex",
@@ -139,25 +193,14 @@ const styles = {
     height: "40px",
     borderRadius: "10px",
     cursor: "pointer",
-    fontSize: "16px",
     boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
   },
   heading: {
     fontWeight: 600,
     fontSize: "22px",
   },
-
-  retailer: {
-    color: "#1e40af",
-  },
-
-  details: {
-    color: "#dc2626",
-  },
-
+  retailer: { color: "#1e40af" },
+  details: { color: "#dc2626" },
   card: {
     background: "#fff",
     borderRadius: "14px",
@@ -167,30 +210,18 @@ const styles = {
     gap: "18px",
     boxShadow: "0 10px 25px rgba(0,0,0,0.08)",
   },
-  item: {
-    display: "flex",
-    gap: "12px",
-    alignItems: "flex-start",
-  },
-  icon: {
-    fontSize: "18px",
-    color: "#1e40af",
-    marginTop: "4px",
-  },
-  label: {
-    fontSize: "13px",
-    color: "#6b7280",
+  item: { display: "flex", gap: "12px" },
+  icon: { fontSize: "18px", color: "#1e40af", marginTop: "4px" },
+  label: { fontSize: "13px", color: "#6b7280" },
+  value: { fontSize: "15px", fontWeight: 600, color: "#111827" },
+  loading: { padding: "40px", textAlign: "center" },
+  mapWrapper: { gridColumn: "1 / -1", marginTop: "10px" },
+  mapTitle: { fontWeight: 600, marginBottom: "10px" },
+  map: { height: "320px", width: "100%", borderRadius: "12px" },
+  noLocation: {
+    gridColumn: "1 / -1",
+    color: "#dc2626",
     fontWeight: 500,
-  },
-  value: {
-    fontSize: "15px",
-    fontWeight: 600,
-    color: "#111827",
-    wordBreak: "break-word",
-  },
-  loading: {
-    padding: "40px",
-    textAlign: "center",
   },
 };
 

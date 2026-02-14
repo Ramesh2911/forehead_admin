@@ -1,6 +1,7 @@
 export const AUTH = {
-  LOGIN: "/super-admin/login",
+  LOGIN: "/login",
   LOGOUT: "/super-admin/logout",
+  CHANGEPASSWORD:"/change-password",
 };
 
 export const DASHBOARD = {
@@ -24,4 +25,8 @@ export const SUBSCRIPTIONS = {
 export const CUSTOMERS = {
   LIST: "/all-customers",
   DETAILS: "/customer-details",
+};
+
+export const PERMISSIONS = {
+  LIST: "/all-permission",
 };

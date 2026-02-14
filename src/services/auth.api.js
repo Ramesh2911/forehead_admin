@@ -3,6 +3,7 @@ import {
   AUTH,
   CUSTOMERS,
   MODULES,
+  PERMISSIONS,
   RETAILERS,
   SUBSCRIPTIONS
 } from "./endpoints";
@@ -13,6 +14,10 @@ export const loginApi = (payload) => {
 
 export const logoutApi = () => {
   return API.post(AUTH.LOGOUT);
+};
+
+export const changePasswordApi = (payload) => {
+  return API.put(AUTH.CHANGEPASSWORD, payload);
 };
 
 export const getAllRetailers = () => {
@@ -48,3 +53,8 @@ export const getCustomerDetails = (id) => {
     params: { id },
   });
 };
+
+export const getAllPermission = () => {
+  return API.get(PERMISSIONS.LIST);
+};
+

@@ -102,7 +102,7 @@ const Customers = () => {
         },
         {
             name: "Police Station",
-            selector: (row) => row.police_station,
+            selector: (row) => row.station_name,
             center: true,
         },
         {
@@ -221,7 +221,7 @@ const Customers = () => {
 
                                 <div className="row mb-3">
                                     <div className="col-md-6">
-                                        <strong>Police Station:</strong> {selectedCustomer.police_station}
+                                        <strong>Police Station:</strong> {selectedCustomer.station_name}
                                     </div>
                                     <div className="col-md-6">
                                         <strong>Pin:</strong> {selectedCustomer.pin}

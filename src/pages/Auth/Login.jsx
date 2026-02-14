@@ -8,7 +8,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 const Login = () => {
 
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -20,7 +20,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const res = await loginApi({ email, password });
+      const res = await loginApi({ phone, password });
 
       const data = res.data;
 
@@ -28,16 +28,24 @@ const Login = () => {
         setError(data.message || "Login failed");
         return;
       }
-     
+
       setToken(data.access_token);
       localStorage.setItem("refresh_token", data.refresh_token);
       localStorage.setItem("role", data.user.role_name);
       localStorage.setItem("user", JSON.stringify(data.user));
-     
-      navigate("/dashboard", { replace: true });
+
+      const user = data.user; 
+
+      if (user.defaultPassword === 0) {
+        navigate("/change-password", { replace: true });
+      } else {
+        navigate("/dashboard", { replace: true });
+      }
+
+      // navigate("/dashboard", { replace: true });
     } catch (err) {
       setError(
-        err.response?.data?.message || "Invalid email or password"
+        err.response?.data?.message || "Invalid phone or password"
       );
     } finally {
       setLoading(false);
@@ -59,12 +67,12 @@ const Login = () => {
           <h2>Sign In</h2>
 
           <form onSubmit={handleSubmit}>
-            <label>Email</label>
+            <label>Phone</label>
             <input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="phone"
+              placeholder="9876543210"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               required
             />
 
